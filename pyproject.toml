@@ -6,7 +6,9 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "customtkinter>=5.2.2",
-    "mediapipe>=0.10.32",
+    "mediapipe>=0.10.32; sys_platform == 'darwin' and platform_machine == 'arm64'",
+    "mediapipe>=0.10.14; sys_platform == 'darwin' and platform_machine == 'x86_64'",
+    "mediapipe>=0.10.32; sys_platform == 'linux' or sys_platform == 'win32'",
     "numpy>=2.4.2",
     "opencv-python>=4.13.0.92",
     "pillow>=12.1.1",
@@ -16,7 +18,13 @@ dependencies = [
 [project.scripts]
 pose-draw = "main:main"
 
-[dependency-groups]
-dev = [
-    "pyinstaller>=6.19.0",
+[tool.uv]
+required-environments = [
+    "sys_platform == 'darwin' and platform_machine == 'arm64'",
+    "sys_platform == 'darwin' and platform_machine == 'x86_64'",
+    "sys_platform == 'linux' and platform_machine == 'x86_64'",
+    "sys_platform == 'win32' and platform_machine == 'AMD64'",
 ]
+
+[dependency-groups]
+dev = ["pyinstaller>=6.19.0"]
